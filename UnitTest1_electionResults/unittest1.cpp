@@ -2,7 +2,17 @@
 #include "CppUnitTest.h"
 #include "../array_electionResults/header_electionResults.h"
 
+#include <fstream>
+#include <vector>
+#include <iostream>
+
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+std::ifstream read;
+std::ofstream write;
+
+
+
 
 namespace UnitTest1_electionResults
 {		
@@ -10,8 +20,14 @@ namespace UnitTest1_electionResults
 	{
 	public:
 		
-		TEST_METHOD(sampleCheck){
-			Assert::AreEqual(sample_sum(3, 2), 5.0);
+		
+
+	
+		
+		TEST_METHOD(listSize_check){
+			
+			read.open("names.txt");
+			Assert::AreEqual(get_listSize(read), 6.0);
 		}
 
 	};
