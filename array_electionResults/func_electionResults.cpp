@@ -39,61 +39,18 @@ Ashley 4 78
 // int vector totalVotes[]
 
 
-
-// get list size
-unsigned int get_listSize(std::ifstream &readFile) {
-	std::vector <std::string> list;
-	std::string name;
-	unsigned int listSize;
-
-	do {
-		readFile >> name;
-		list.push_back(name);
-	} while (!readFile.eof());
-
-	return listSize = list.size();
-}
-
 // get candidate name
-void getCandidatesName(std::ifstream& inp, std::string cNames[],int noOfRows) {
-	int i;
+void getCandidatesName(std::ifstream& inp,int noOfRows, std::vector<std::string> &candName) {
+	std::string name;
 
-	std::vector<std::string> local_name(noOfRows);
+	candName.resize(candName.size()+noOfRows);
 
-	for (i = 0; i < noOfRows; i++)
-		inp >> cNames[i];
-
-	for (int i = 0; i < noOfRows; i++) {
-		local_name[i] = cNames[i];
-	}
-
-	for (int i = 0; i < noOfRows; i++) {
-		std::cout << local_name[i] << std::endl;
-	}
-
-
-	
-}
-
-void get_name(std::ifstream& read, std::vector <std::string> nameList, int listSize) {
-	
-	std::vector<std::string> local_name(listSize); // initialize local vector
-	
-	// store value to local vector then copy contents to nameList[]
-	
-
-
-
-	/*for (int i = 0; i < listSize; i++) {
-		read >> local_name[i];
-		nameList[i] = local_name[i];
-	}*/
-
-	nameList.push_back("charlie");
-	for (unsigned int i = 0; i < nameList.size(); i++) {
-		std::cout << nameList[i] << "-" << std::endl;
+	for (unsigned int i = 0; i < candName.size(); i++) {
+		inp >> candName[i];
 	}
 }
+
+
 
 void get_voteData(std::ifstream& inp, std::vector<int> vote, int listSize) {
 	int a;
@@ -105,22 +62,13 @@ void get_voteData(std::ifstream& inp, std::vector<int> vote, int listSize) {
 	for (unsigned int i = 0; i < local_vote.size(); i++) {
 		inp >> local_vote[i];
 	}
-
-	//vote.resize(vote.size() + listSize);
-	//inp >> a;
-	//std::cout << a;
 	std::cout << std::endl;
-	for (int i = 0; i < listSize; i++) {
-		local_vote[i] = local_vote[i] + 1;
-	}
 	for (int i = 0; i < listSize; i++) {
 		std::cout << local_vote[i] << "-";
 	}
 }
 
-
-
-//---------- Pass By Ref Check ---------------
+//------ Pass By Ref Check -------
 void vect_passByRef(std::vector <int> &myVect, int listSize) {
 	std::vector <int> local_vect(listSize);
 
@@ -139,6 +87,7 @@ void vect_passByRef(std::vector <int> &myVect, int listSize) {
 		myVect[i] = local_vect[i];
 	}
 }
+
 // --- From File PassByRef ----
 // modify the contents of the main vector
 void vect_fromFile(std::vector <int> &myVect, int listSize, std::ifstream& inp) {
@@ -160,10 +109,21 @@ void vect_fromFile(std::vector <int> &myVect, int listSize, std::ifstream& inp) 
 	}
 }
 
+// --- string vector passByRef ---
+void vect_nameFromFile(std::ifstream& read, std::vector<std::string> &vectName, int listSize) {
+	std::vector<std::string> local_name(listSize);
+	std::string name;
 
-// read from file
-void readName_fromFile(std::ifstream readFile, std::vector <std::string> &nameList, int listSize) {
-	
-	std::vector <std::string> local_list;
+	vectName.resize(vectName.size() + listSize);
+
+	// get contents from file
+	for (unsigned int i = 0; i < local_name.size(); i++) {
+		read >> name;
+		local_name[i] = name;
+	}
+
+	for (unsigned int i = 0; i < vectName.size(); i++) {
+		vectName[i] = local_name[i];
+	}
 
 }

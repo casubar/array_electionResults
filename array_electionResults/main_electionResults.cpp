@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include <iostream>
 #include <fstream>
+#include <string>
 
 #include "header_electionResults.h"
 
@@ -15,44 +16,31 @@ int main()
 	int a;
 	unsigned int sizeList;
 
-	std::vector<std::string> main_list;
+	std::vector<std::string> main_name;
 	std::vector<int> main_vote;
 	std::vector<int> main_vect_check(3);
 
 	// declare file stream variables
-	std::ifstream inData_read; // input file stream variable
+	std::ifstream read_voteData; // input file stream variable
+	std::ifstream read_name;
 	std::ofstream outData_write; // output file stream variable
 
 
 
 	//inData_read.open("names.txt"); // open input file then read from file
-	inData_read.open("voteData.txt");
+	read_voteData.open("voteData.txt");
+	read_name.open("names.txt");
 	//outData_write.open("voteData.txt"); // writes to the file or open the output file or creates the file
 
-	//inData_read >> a;
-	//outData_write << 23;
+	getCandidatesName(read_name, 6, main_name);
+	for (unsigned int i = 0; i < main_name.size(); i++) {
+		std::cout << main_name[i] << std::endl;
+	}
 
-	//std::cout << a;
-
-	//getCandidatesName(inData_read, cNames, 6);
 	//get_name(inData_read, main_list, 6);
-	//get_voteData(inData_read, main_vote, 6);
+	get_voteData(read_voteData, main_vote, 6);
 
-	for (unsigned int i = 0; i < main_vect_check.size(); i++) {
-		main_vect_check[i] = i * 3;
-	}
-	vect_passByRef(main_vect_check, 3);
-	for (unsigned int i = 0; i < main_vect_check.size(); i++) {
-		std::cout << main_vect_check[i] << " ";
-	}
-	std::cout << std::endl;
 
-	// --- From File PassByRef ----
-	std::vector<int> main_checkVote(3);
-	vect_fromFile(main_checkVote, 3, inData_read);
-	for (unsigned int i = 0; i < main_checkVote.size(); i++) {
-		std::cout << main_checkVote[i] << " ";
-	}
 
 
 	std::cout << std::endl;
