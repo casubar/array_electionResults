@@ -39,6 +39,50 @@ Ashley 4 78
 // int vector totalVotes[]
 
 
+// get the number of candidates
+
+
+
+
+// initialize votesByRegion table
+void init_votesByRegion(std::vector <std::vector<int> > &regionTable, int regNum, int nameNum) {
+	for (int vectRow = 0; vectRow < nameNum; vectRow++) { // for number of ROWs
+		std::vector<int> vectList_reg; // vector column for region
+		for (int vectCol = 0; vectCol < regNum; vectCol++) {
+			vectList_reg.push_back(0); // column set to 99
+		}
+		regionTable.push_back(vectList_reg);
+	}
+}
+
+// display votesByRegion table
+void disp_votesByRegion(std::vector <std::vector<int> > table, int regNum, int nameNum) {
+	for (int row = 0; row < nameNum; row++) {
+		for (int col = 0; col < regNum; col++) {
+			std::cout << table[row][col] << "-";
+		}
+		std::cout << std::endl;
+	}
+}
+
+// initialize totalVotes table
+void init_totalVotes(std::vector<int> &sum_votes, int nameNum) {
+	sum_votes.resize(sum_votes.size() + nameNum);
+	for (unsigned int row = 0; row < sum_votes.size(); row++) {
+		sum_votes[row] = 99;
+	}
+}
+
+// display totalVotes table
+void disp_totalVotes(std::vector<int> sum_votes) {
+	for (unsigned int row = 0; row < sum_votes.size(); row++) {
+		std::cout << sum_votes[row] << std::endl;
+	}
+}
+
+
+
+
 // get candidate name
 void getCandidatesName(std::ifstream& inp,int noOfRows, std::vector<std::string> &candName) {
 	std::string name;
@@ -50,80 +94,122 @@ void getCandidatesName(std::ifstream& inp,int noOfRows, std::vector<std::string>
 	}
 }
 
+// insertion sort name
+void sort_name(std::vector<std::string> &name) {
+	int location;
+	std::string temp;
 
+	location = 0;
+	for (unsigned int firstOutOfOrder = 1; firstOutOfOrder < name.size(); firstOutOfOrder++) {
+		if (name[firstOutOfOrder] < name[firstOutOfOrder - 1]) {
+			temp = name[firstOutOfOrder];
+			location = firstOutOfOrder;
 
-void get_voteData(std::ifstream& inp, std::vector<int> vote, int listSize) {
-	int a;
-
-	std::vector<int> local_vote(listSize);
-
-	vote.resize(vote.size() + listSize);
-
-	for (unsigned int i = 0; i < local_vote.size(); i++) {
-		inp >> local_vote[i];
-	}
-	std::cout << std::endl;
-	for (int i = 0; i < listSize; i++) {
-		std::cout << local_vote[i] << "-";
-	}
-}
-
-//------ Pass By Ref Check -------
-void vect_passByRef(std::vector <int> &myVect, int listSize) {
-	std::vector <int> local_vect(listSize);
-
-	myVect.resize(myVect.size() + listSize);
-
-	// copy contents of myVect to local_vect
-	for (unsigned int i = 0; i < local_vect.size(); i++) {
-		local_vect[i] = myVect[i];
-	}
-	// modify contents of local_vect
-	for (unsigned int i = 0; i < local_vect.size(); i++) {
-		local_vect[i] = myVect[i] + 1;
-	}
-	// update contents of myVect
-	for (unsigned int i = 0; i < local_vect.size(); i++) {
-		myVect[i] = local_vect[i];
+			do {
+				name[location] = name[location - 1];
+				location--;
+			} while (location > 00 && name[location - 1] > temp);
+			name[location] = temp;
+		}
 	}
 }
 
-// --- From File PassByRef ----
-// modify the contents of the main vector
-void vect_fromFile(std::vector <int> &myVect, int listSize, std::ifstream& inp) {
-	int a;
-	std::vector <int> local_vect(listSize);
-
-	myVect.resize(myVect.size() + listSize);
-
-	// get contents from file
-	inp >> a;
-
-	// copy contents from file to local_vect
-	for (unsigned int i = 0; i < local_vect.size(); i++) {
-		local_vect[i] = a + 2;
-	}
-	// update contents of myVect
-	for (unsigned int i = 0; i < local_vect.size(); i++) {
-		myVect[i] = local_vect[i];
+// display candidate name
+void disp_name(std::vector<std::string> name){
+	for (unsigned int i = 0; i < name.size(); i++) {
+		std::cout << name[i] << std::endl;
 	}
 }
 
-// --- string vector passByRef ---
-void vect_nameFromFile(std::ifstream& read, std::vector<std::string> &vectName, int listSize) {
-	std::vector<std::string> local_name(listSize);
+
+// ==================================================
+
+// get vote data
+void getVotes(std::ifstream& read, std::vector <int> &region, std::vector<int> &vote, int listSize) {
+	int regData, voteCount, index;
 	std::string name;
 
-	vectName.resize(vectName.size() + listSize);
 
-	// get contents from file
-	for (unsigned int i = 0; i < local_name.size(); i++) {
-		read >> name;
-		local_name[i] = name;
-	}
+	std::vector<int> local_reg(listSize);
+	std::vector<int> local_vote(listSize);
 
-	for (unsigned int i = 0; i < vectName.size(); i++) {
-		vectName[i] = local_name[i];
-	}
+
+	index = 0;
+	do {
+		read >> name >> regData >> voteCount;
+		local_reg[index] = regData;
+		local_vote[index] = voteCount;
+		index++;
+
+	} while (!read.eof());
 
 }
+// ==================================================
+
+
+// use binary search for location of candidate name from the name list
+int get_name_loc(std::vector<std::string> &name, int listSize, std::string nameToSearch) {
+	int first, mid, last;
+	bool found;
+
+	found = false;
+	first = 0;
+	mid = 0;
+	last = listSize - 1;
+
+	while (first <= last && !found) {
+		mid = (first + last)/2;
+		if (name[mid] == nameToSearch) {
+			found = true;
+		}
+		else if (name[mid] > nameToSearch) {
+			last = mid - 1;
+		}
+		else {
+			first = mid + 1;
+		}
+	}
+	if (found) {
+		return mid;
+	}
+	else {
+		return 99;
+	}
+}
+
+
+
+// process voteData.txt
+void proc_voteData(std::ifstream& read, std::vector< std::vector<int> > &voteList, std::vector<std::string> nameList ,int nameNum, int regNum ) {
+	int reg, vCount, nameLoc;
+	std::string cName;
+
+
+	do {
+		read >> cName >> reg >> vCount;
+		nameLoc = get_name_loc(nameList, nameNum, cName);
+		voteList[nameLoc][reg - 1] = vCount;
+		//voteList[nameLoc][reg - 1] = voteList[nameLoc][reg - 1] + vCount;
+
+
+	} while (!read.eof());
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

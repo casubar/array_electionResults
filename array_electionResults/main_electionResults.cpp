@@ -13,12 +13,16 @@ int main()
 	std::string cNames[6];
 
 	char cont;
-	int a;
+	int a, nameSize;
 	unsigned int sizeList;
 
 	std::vector<std::string> main_name;
 	std::vector<int> main_vote;
 	std::vector<int> main_vect_check(3);
+	std::vector < std::vector<int> > main_votesByregion;
+	std::vector<int> main_totalVotes;
+
+
 
 	// declare file stream variables
 	std::ifstream read_voteData; // input file stream variable
@@ -26,19 +30,21 @@ int main()
 	std::ofstream outData_write; // output file stream variable
 
 
-
-	//inData_read.open("names.txt"); // open input file then read from file
 	read_voteData.open("voteData.txt");
 	read_name.open("names.txt");
-	//outData_write.open("voteData.txt"); // writes to the file or open the output file or creates the file
+	
+
 
 	getCandidatesName(read_name, 6, main_name);
-	for (unsigned int i = 0; i < main_name.size(); i++) {
-		std::cout << main_name[i] << std::endl;
-	}
+	sort_name(main_name);
+	init_votesByRegion(main_votesByregion, 4, 6);	
+	init_totalVotes(main_totalVotes, 6);
+	
+	proc_voteData(read_voteData, main_votesByregion, main_name,6, 4);
 
-	//get_name(inData_read, main_list, 6);
-	get_voteData(read_voteData, main_vote, 6);
+	disp_name(main_name);
+	disp_votesByRegion(main_votesByregion, 4, 6);
+	//disp_totalVotes(main_totalVotes);
 
 
 
