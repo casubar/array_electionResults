@@ -6,11 +6,13 @@
 #include <fstream>
 #include <string>
 
+
+
 #include "header_electionResults.h"
 
 int main()
 {
-	std::string cNames[6];
+	
 
 	char cont;
 	int a, nameSize;
@@ -34,18 +36,19 @@ int main()
 	read_name.open("names.txt");
 	
 
-
-	getCandidatesName(read_name, 6, main_name);
-	sort_name(main_name);
-	init_votesByRegion(main_votesByregion, 4, 6);	
-	init_totalVotes(main_totalVotes, 6);
+	nameSize = get_candidate_nameAndcount(read_name, main_name);
 	
-	proc_voteData(read_voteData, main_votesByregion, main_name,6, 4);
+	sort_name(main_name);
+	init_votesByRegion(main_votesByregion, 4, nameSize);	
+	init_totalVotes(main_totalVotes, nameSize);
+	
+	proc_voteData(read_voteData, main_votesByregion, main_name,nameSize, 4);
 
-	disp_name(main_name);
-	disp_votesByRegion(main_votesByregion, 4, 6);
+	//disp_name(main_name);
+	//disp_votesByRegion(main_votesByregion, 4, nameSize);
 	//disp_totalVotes(main_totalVotes);
 
+	disp_whole_table(main_name, main_votesByregion, main_totalVotes, 4);
 
 
 

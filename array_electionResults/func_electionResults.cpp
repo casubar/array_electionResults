@@ -83,16 +83,24 @@ void disp_totalVotes(std::vector<int> sum_votes) {
 
 
 
-// get candidate name
-void getCandidatesName(std::ifstream& inp,int noOfRows, std::vector<std::string> &candName) {
+// get candidate name count
+int get_candidate_nameAndcount(std::ifstream& inp, std::vector<std::string> &cNames) {
 	std::string name;
+	int nameSize;
 
-	candName.resize(candName.size()+noOfRows);
-
-	for (unsigned int i = 0; i < candName.size(); i++) {
-		inp >> candName[i];
+	nameSize = 0;
+	
+	while (!inp.eof()) {
+		inp >> name;
+		cNames.push_back(name);
+		nameSize++;
 	}
+	inp.close();
+	
+	return cNames.size();
 }
+
+
 
 // insertion sort name
 void sort_name(std::vector<std::string> &name) {
@@ -184,20 +192,30 @@ void proc_voteData(std::ifstream& read, std::vector< std::vector<int> > &voteLis
 	int reg, vCount, nameLoc;
 	std::string cName;
 
-
+	read >> cName >> reg >> vCount;
 	do {
-		read >> cName >> reg >> vCount;
+		
 		nameLoc = get_name_loc(nameList, nameNum, cName);
-		voteList[nameLoc][reg - 1] = vCount;
-		//voteList[nameLoc][reg - 1] = voteList[nameLoc][reg - 1] + vCount;
-
+		voteList[nameLoc][reg - 1] = voteList[nameLoc][reg - 1] + vCount;
+		read >> cName >> reg >> vCount;
 
 	} while (!read.eof());
 
 }
 
 
+// display whole table
+void disp_whole_table(std::vector<std::string> &nameList, std::vector< std::vector<int> > &voteList, std::vector<int> &totalVotes, int regNum) {
 
+	for ( unsigned int nameRow = 0; nameRow < nameList.size(); nameRow++) {
+		std::cout << nameList[nameRow] << "--";
+		for (unsigned int regCol = 0; regCol < regNum; regCol++) {
+			std::cout << voteList[nameRow][regCol] << "-" ;
+		}
+		std::cout  << totalVotes[nameRow];
+		std::cout << std::endl;
+	}
+}
 
 
 

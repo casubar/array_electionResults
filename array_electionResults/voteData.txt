@@ -1,6 +1,10 @@
 Mia 2 34
 Mickey 1 56
 Donald 2 56
-Charlie 1 78
+Charlie 1 70
 Danny 4 29
 Ashley 4 78
+Khalel 2 30
+Khalel 2 70
+Mia 2 66
+Mia 1 46
