@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+
+
 double sample_sum(int a, int b) {
 	return a + b;
 }
@@ -39,7 +41,7 @@ Ashley 4 78
 // int vector totalVotes[]
 
 
-// get the number of candidates
+
 
 
 
@@ -79,8 +81,6 @@ void disp_totalVotes(std::vector<int> sum_votes) {
 		std::cout << sum_votes[row] << std::endl;
 	}
 }
-
-
 
 
 // get candidate name count
@@ -130,29 +130,6 @@ void disp_name(std::vector<std::string> name){
 }
 
 
-// ==================================================
-
-// get vote data
-void getVotes(std::ifstream& read, std::vector <int> &region, std::vector<int> &vote, int listSize) {
-	int regData, voteCount, index;
-	std::string name;
-
-
-	std::vector<int> local_reg(listSize);
-	std::vector<int> local_vote(listSize);
-
-
-	index = 0;
-	do {
-		read >> name >> regData >> voteCount;
-		local_reg[index] = regData;
-		local_vote[index] = voteCount;
-		index++;
-
-	} while (!read.eof());
-
-}
-// ==================================================
 
 
 // use binary search for location of candidate name from the name list
@@ -204,6 +181,53 @@ void proc_voteData(std::ifstream& read, std::vector< std::vector<int> > &voteLis
 }
 
 
+// get total votes for each candidate
+void get_totalVotes(std::vector< std::vector<int> > &voteList, std::vector<int> &totalVotes) {
+	int vTotal_perRow, rowSum, regNum;
+
+	rowSum = 0;
+	regNum = 4;
+	
+	
+	for (unsigned int row = 0; row < voteList.size(); row++) {// sum all votes by row
+		vTotal_perRow = 0;
+		for (int col = 0; col < regNum; col++) { 
+			
+			vTotal_perRow = vTotal_perRow + voteList[row][col];// process total votes per col
+		}
+		totalVotes[row] = vTotal_perRow;
+	}
+}
+
+// check get_totalVotes()
+double check_getTotalVotes(std::vector< std::vector<int> > &voteList, std::vector<int> totalVotes) {
+	double rowTotal;
+
+	get_totalVotes(voteList, totalVotes);
+	
+	
+	// row 1 vTotal = 177
+	return totalVotes[0];
+}
+
+
+// get name of most total votes by region
+void get_winner(std::vector<std::string> &cNamesList, std::vector<int> totalVotes) {
+	int win, winLoc;
+
+	win = 0;
+	for (unsigned int i = 0; i < totalVotes.size(); i++) {
+		if (totalVotes[i] > win) {
+			win = totalVotes[0];
+			winLoc = i;
+		}
+	}
+
+	std::cout << "Winner is = " << cNamesList[winLoc];
+}
+
+
+
 // display whole table
 void disp_whole_table(std::vector<std::string> &nameList, std::vector< std::vector<int> > &voteList, std::vector<int> &totalVotes, int regNum) {
 
@@ -212,7 +236,7 @@ void disp_whole_table(std::vector<std::string> &nameList, std::vector< std::vect
 		for (unsigned int regCol = 0; regCol < regNum; regCol++) {
 			std::cout << voteList[nameRow][regCol] << "-" ;
 		}
-		std::cout  << totalVotes[nameRow];
+		std::cout  <<"-----" << totalVotes[nameRow];
 		std::cout << std::endl;
 	}
 }

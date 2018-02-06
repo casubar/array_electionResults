@@ -48,3 +48,12 @@ void proc_voteData(std::ifstream& read, std::vector< std::vector<int> > &voteLis
 
 // display whole table
 void disp_whole_table(std::vector<std::string> &nameList, std::vector< std::vector<int> > &voteList, std::vector<int> &totalVotes, int regNum);
+
+// get total votes for each candidate
+void get_totalVotes(std::vector< std::vector<int> > &voteList, std::vector<int> &totalVotes);
+
+// get name of most total votes by region
+void get_winner(std::vector<std::string> &cNamesList, std::vector<int> totalVotes);
+
+// check get_totalVotes()
+double check_getTotalVotes(std::vector< std::vector<int> > &voteList, std::vector<int> totalVotes);

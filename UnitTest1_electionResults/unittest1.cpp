@@ -6,6 +6,7 @@
 #include <vector>
 #include <iostream>
 #include <string.h>
+#include <iostream>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -25,8 +26,6 @@ namespace UnitTest1_electionResults
 	TEST_CLASS(electionResultsUnitTest)
 	{
 	public:
-	
-
 		//-----------------------------
 		TEST_METHOD(testSum){
 			int a, b;
@@ -67,6 +66,34 @@ namespace UnitTest1_electionResults
 				}
 			
 			Assert::AreEqual(a, 99.0);
+		}
+		TEST_METHOD(getTotalVotes_check) {
+			std::vector< std::vector<int> > voteTable;
+			std::vector<int> vTotal;
+			int vTotal_perRow;
+
+			for (int row = 0; row < 7; row++) {
+				std::vector<int> vectCol;
+				vectCol.push_back(0);
+				vectCol.push_back(30);
+				vectCol.push_back(0);
+				vectCol.push_back(70);
+
+				voteTable.push_back(vectCol);
+			}
+	
+			for (int row = 0; row < 7; row++) {
+				vTotal_perRow = 0;
+				for (int col = 0; col < 4; col++) {
+					vTotal_perRow = vTotal_perRow + voteTable[row][col];
+				}
+				vTotal.push_back(vTotal_perRow);
+			}
+
+			Assert::AreEqual(voteTable[0][3], 70, L"wrong value at [0][3]");
+			Assert::AreEqual(vTotal[0], 100, L"wrong row total at [0]");
+			Assert::AreEqual(vTotal[5], 100, L"wrong row total at [5]");
+
 		}
 	
 

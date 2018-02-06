@@ -43,12 +43,10 @@ int main()
 	init_totalVotes(main_totalVotes, nameSize);
 	
 	proc_voteData(read_voteData, main_votesByregion, main_name,nameSize, 4);
-
-	//disp_name(main_name);
-	//disp_votesByRegion(main_votesByregion, 4, nameSize);
-	//disp_totalVotes(main_totalVotes);
+	get_totalVotes(main_votesByregion, main_totalVotes);
 
 	disp_whole_table(main_name, main_votesByregion, main_totalVotes, 4);
+	get_winner(main_name, main_totalVotes);
 
 
 
