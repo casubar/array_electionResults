@@ -6,5 +6,12 @@ Danny 4 29
 Ashley 4 78
 Khalel 2 30
 Khalel 2 70
-Mia 2 66
-Mia 1 46
+Mia 2 34
+Mickey 1 56
+Mia 2 34
+Mickey 1 56
+Mia 2 34
+Mickey 1 56
+Ashley 1 80
+Ashley 2 56
+Ashley 3 15
